@@ -1,54 +1,7 @@
 #include "NMEA.h"
 #include <stdio.h>
 
-
-
-int8_t parse_gga(char *str){
-    uint8_t comma_num = 0;
-    uint16_t cnt = 0;
-    uint8_t comma[GGA_COMMA];
-
-    char *_start;
-    char *_end;
-    char *_comma;
-
-    _start = strchr(str, '$');
-    str = _start;
-    _end = strchr(str, '*');
-    _comma = strchr(str, ',');
-
-
-    if(_start == NULL || _end == NULL || _comma == NULL){
-        printf("\'$\', \'*\' or \',\' is missing in string.");
-        return -1;
-    }
-
-    comma[comma_num] = _comma-str;
-
-    for(cnt = 0; *(str+cnt) != NULL; cnt++){
-
-    }
-
-
-    while(_comma != NULL){
-        _comma = strchr(_comma+1, ',');
-        comma_num++;
-        comma[comma_num] = _comma-str;
-    }
-
-    if(comma_num != GGA_COMMA){
-        printf("Not enough parameters to represent GGA.");
-        return -1;
-    }
-
-}
-
-static uint8_t find_comma(char *str){
-
-}
-
-
-uint8_t parse_gga2(char *str, StructGGA *GGA_Struct){
+uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
     char *_start;
     char *comma;
     char *tmp;
