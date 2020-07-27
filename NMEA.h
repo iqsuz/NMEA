@@ -2,9 +2,13 @@
     #define _NMEA_H_
 
     #include <stdint.h>
+    #include <string.h>
 
-    #define GGA_LIMIT 1000
+    #define GGA_PARAM_LIMIT 1000
+    #define GGA_COMMA 14
+
     #define COMMA_LIMIT 20
+
 
     typedef enum {
         DTM,
@@ -24,7 +28,7 @@
     }TypeGP;
 
     typedef struct {
-        char *id;
+        char id[5];
         float time;
         float lat;
         char NS;
@@ -42,5 +46,7 @@
         uint8_t checksum;
     }StructGGA;
 
-    int8_t parse_gga(char *, StructGGA *);
+    int8_t parse_gga(char *);
+    uint8_t parse_gga2(char *, StructGGA *);
+    double str2double(char *);
 #endif // _NMEA_H_
