@@ -1,11 +1,12 @@
 # depslib dependency file v1.0
-1595563413 source:c:\users\admin\desktop\nmea sentence parser\nmea.c
+1595815643 source:c:\users\admin\desktop\nmea sentence parser\nmea.c
 	"NMEA.h"
 	<stdio.h>
 
-1595559374 c:\users\admin\desktop\nmea sentence parser\nmea.h
+1595815643 c:\users\admin\desktop\nmea sentence parser\nmea.h
 	<stdint.h>
+	<string.h>
 
-1595560080 source:c:\users\admin\desktop\nmea sentence parser\nmea\main.c
+1595815643 source:c:\users\admin\desktop\nmea sentence parser\nmea\main.c
 	"../NMEA.h"
 
