@@ -47,5 +47,5 @@
     }StructGGA;
 
     uint8_t parse_gga(char *, StructGGA *);
-    double str2double(char *);
+    double str2double(char *, char *);
 #endif // _NMEA_H_
