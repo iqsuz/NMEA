@@ -46,7 +46,6 @@
         uint8_t checksum;
     }StructGGA;
 
-    int8_t parse_gga(char *);
-    uint8_t parse_gga2(char *, StructGGA *);
+    uint8_t parse_gga(char *, StructGGA *);
     double str2double(char *);
 #endif // _NMEA_H_
