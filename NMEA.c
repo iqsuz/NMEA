@@ -8,6 +8,12 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
     uint8_t check_init;
 
     _start = strchr(str, '$');
+
+    if(!_start){
+        printf("No start char is found.");
+        return -1;
+    }
+
     check_init = (*(_start+1) == 'G') && (*(_start+2) == 'P') && (*(_start+3) == 'G') && (*(_start+4) == 'G') && (*(_start+5) == 'A');
 
     if(!check_init){
@@ -44,20 +50,28 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
 
     GGA_Struct->lat = str2double(comma_start, comma_end);
 
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+
+    if(comma_start == NULL ||  comma_end == NULL){
+        printf("No enough term to complete sentence!");
+        return -1;
+    }
+
+    GGA_Struct->NS = *(comma_start+1);
+
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
 }
 
 uint8_t is_digit(char str){
     return str >= '0' && str <= '9';
 }
 
-double str2double(char *comma_start, char *comma_end){
+double str2double(char *str_start, char *str_end){
     double num = 0.0;
     double frac = 0.0;
-    char *str_start, *str_end;
     uint8_t cnt = 0;
-
-    str_start = comma_start;
-    str_end = comma_end;
 
     while(*(++str_start) != '.'){
         if(str_start == str_end-1){
