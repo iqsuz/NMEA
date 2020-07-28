@@ -25,60 +25,61 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
     }
 
     comma_start = strchr(str, ',');
-    comma_end = strchr(comma_start, ',');
+    comma_end = strchr(comma_start+1, ',');
 
-    if(comma_start && comma_end){
+    if(comma_start == NULL ||  comma_end == NULL){
         printf("No enough term to complete sentence!");
         return -1;
     }
 
+    GGA_Struct->time = str2double(comma_start, comma_end);
 
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+
+    if(comma_start == NULL ||  comma_end == NULL){
+        printf("No enough term to complete sentence!");
+        return -1;
+    }
+
+    GGA_Struct->lat = str2double(comma_start, comma_end);
 
 }
 
 uint8_t is_digit(char str){
-    return str >= '0' && str<= '9';
+    return str >= '0' && str <= '9';
 }
 
-double str2double(char *str_start, char *str_end){
+double str2double(char *comma_start, char *comma_end){
     double num = 0.0;
     double frac = 0.0;
+    char *str_start, *str_end;
+    uint8_t cnt = 0;
+
+    str_start = comma_start;
+    str_end = comma_end;
 
     while(*(++str_start) != '.'){
         if(str_start == str_end-1){
             return num;
         }
         if(is_digit(*str_start)){
-            num = num * 10 + *str_start - '\0';
-        }else{
-            printf("Not a number!");
-            return 0.0;
-        }
-
-    }
-
-}
-
-/*double str2double(char *str_start, char *str_end){
-    float num = 0.0;
-    float frac = 0.0;
-    uint8_t cnt;
-
-    while(*(str_start++) != '.'){
-        if(str_start == str_end){
-            return num;
-        }
-        if(is_digit(*(str_start-1))){
-            num = num * 10 + *(str_start-1) - '0';
+            num = num * 10 + *str_start - '0';
         }else{
             printf("Not a number!");
             return 0.0;
         }
     }
 
-    for(cnt = 1; *(str_start++) != '\0'; cnt++){
-        frac = frac + (*(str_start-1) - '0') * pow(0.1,cnt);
+    while(++str_start != (str_end)){
+        cnt++;
+        if(is_digit(*str_start)){
+            frac = frac + (*str_start - '0') * pow(0.1, cnt);
+        }else{
+            printf("Not a number!");
+            return 0.0;
+        }
     }
 
     return num+frac;
-}*/
+}

@@ -21,3 +21,14 @@
 	"NMEA.h"
 	<stdio.h>
 
+1595911469 source:c:\users\admin\desktop\nmea\nmea\main.c
+	"../NMEA.h"
+
+1595910797 c:\users\admin\desktop\nmea\nmea.h
+	<stdint.h>
+	<string.h>
+
+1595911600 source:c:\users\admin\desktop\nmea\nmea.c
+	"NMEA.h"
+	<stdio.h>
+

@@ -29,17 +29,17 @@
 
     typedef struct {
         char id[5];
-        float time;
-        float lat;
+        double time;
+        double lat;
         char NS;
-        float lon;
+        double lon;
         char EW;
         uint8_t quality;
         uint8_t num_sat;
-        float HDOP;
-        float MSL_alt;
+        double HDOP;
+        double MSL_alt;
         char MSL_unit;
-        float geo_sep;
+        double geo_sep;
         char geo_sep_unit;
         uint8_t AOD;            //Variable type needs to be checked to see if it is correct.
         uint8_t diff_stat;      //Variable type needs to be checked to see if it is correct.
