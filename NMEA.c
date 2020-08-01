@@ -18,78 +18,111 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
         return 0;
     }
 
-    comma_start = strchr(str, ',');
+    if((comma_start = strchr(str, ',')) == NULL || (comma_end = strchr(comma_start+1, ',')) == NULL){
+        printf("No term found.");
+        return 0.0;
+    }
+
+    if((GGA_Struct->time = str2double(comma_start+1, comma_end-1)) == 0){
+        printf("Failed during TIME parsing of GGA");
+        return 0;
+    }
+
+    //Latitude
+    comma_start = comma_end;
     comma_end = strchr(comma_start+1, ',');
 
-    if((GGA_Struct->time = str2double(comma_start+1, comma_end-1)))
+    if((GGA_Struct->lat = str2double(comma_start+1, comma_end-1)) == 0){
+        printf("Failed during LAT parsing of GGA");
+        return 0;
+    }
+
+    //North or South
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+
+    if(comma_end-comma_start-1 == 0){
+        printf("There is no NS information.");
+        return 0;
+    }
+
+    GGA_Struct->NS = *(comma_end-1);
+
+
+    //Longitude
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+
+    if((GGA_Struct->lon = str2double(comma_start+1, comma_end-1)) == 0){
+        printf("Failed during LON parsing of GGA");
+        return 0;
+    }
+
+
+    //East or West
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+
+    if(comma_end-comma_start-1 == 0){
+        printf("There is no EW information.");
+        return 0;
+    }
+
+    GGA_Struct->EW = *(comma_end-1);
+
+
+    //Quality
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+    GGA_Struct->quality = str2int8(comma_start+1, comma_end-1);
+
+
+    //Number of satellite
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+    GGA_Struct->num_sat = str2int8(comma_start+1, comma_end-1);
+
+    //HDOP
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+
+    if((GGA_Struct->HDOP = str2double(comma_start+1, comma_end-1)) == 0){
+        printf("Failed during HDOP parsing of GGA");
+        return 0;
+    }
+
+     //MSL_Alt
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+
+    if((GGA_Struct->MSL_alt = str2double(comma_start+1, comma_end-1)) == 0){
+        printf("Failed during HDOP parsing of GGA");
+        return 0;
+    }
+
+    //MSL_Alt Unit
+    comma_end = strchr(comma_end+1, ',');
+    GGA_Struct->MSL_unit = *(comma_end-1);
+
+    //GEO_Sep
+    comma_start = comma_end;
+    comma_end = strchr(comma_start+1, ',');
+
+    if((GGA_Struct->geo_sep = str2double(comma_start+1, comma_end-1)) == 0){
+        printf("Failed during HDOP parsing of GGA");
+        return 0;
+    }
+
+    //GEO_SEP Unit
+    comma_end = strchr(comma_end+1, ',');
+    GGA_Struct->geo_sep_unit = *(comma_end-1);
 
 
 
+
+
+    return 1;
 }
-
-
-/*uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
-    char *_start;
-    char *comma_start;
-    char *comma_end;
-    uint8_t check_init;
-
-    _start = strchr(str, '$');
-
-    if(!_start){
-        printf("No start char is found.");
-        return 0;
-    }
-
-    check_init = (*(_start+1) == 'G') && (*(_start+2) == 'P') && (*(_start+3) == 'G') && (*(_start+4) == 'G') && (*(_start+5) == 'A');
-
-    if(!check_init){
-        printf("Sentence ID is not \"GPGGA\".");
-        return 0;
-    }else{
-        strcpy(GGA_Struct->id,"GPGGA");
-    }
-
-    str = _start;
-
-    if(!strchr(str, '*')){
-        printf("Sentence doesn't have \"*\" char in the end.");
-        return 0;
-    }
-
-    comma_start = strchr(str, ',');
-    comma_end = strchr(comma_start+1, ',');
-
-    if(comma_start == NULL ||  comma_end == NULL){
-        printf("No enough term to complete sentence!");
-        return 0;
-    }
-
-    GGA_Struct->time = str2double(comma_start+1, comma_end-1);
-
-    /*comma_start = comma_end;
-    comma_end = strchr(comma_start+1, ',');
-
-    if(comma_start == NULL ||  comma_end == NULL){
-        printf("No enough term to complete sentence!");
-        return 0;
-    }
-
-    GGA_Struct->lat = str2double(comma_start+1, comma_end-1);
-
-    comma_start = comma_end;
-    comma_end = strchr(comma_start+1, ',');
-
-    if(comma_start == NULL ||  comma_end == NULL){
-        printf("No enough term to complete sentence!");
-        return 0;
-    }
-
-    GGA_Struct->NS = *(comma_start+1);
-
-    comma_start = comma_end;
-    comma_end = strchr(comma_start+1, ',');
-}*/
 
 /*
 This function determines whether a char is in digit value range.
@@ -123,6 +156,21 @@ double str2double(char *str_start, char *str_end){
             num = num + (*(str_start-1) - '0') * pow(0.1, pow_cnt);
             pow_cnt++;
         }
+    }
+
+    return num;
+}
+
+uint8_t str2int8(char *str_start, char *str_end){
+    uint8_t num = 0;
+
+    while(str_start++ <= str_end){
+        if(!is_digit(*(str_start-1))){
+            printf("Not a number!");
+            return 0;
+        }
+
+        num = num *10 + *(str_start-1) - '0';
     }
 
     return num;

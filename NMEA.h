@@ -48,4 +48,5 @@
 
     uint8_t parse_gga(char *, StructGGA *);
     double str2double(char *, char *);
+    uint8_t str2int8(char *, char *);
 #endif // _NMEA_H_
