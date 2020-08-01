@@ -9,5 +9,9 @@ int main(){
         printf("Time is: %f\n",GGA_Struct.time);
         printf("Latitude is: %f",GGA_Struct.lat);
         printf("%c\n",GGA_Struct.NS);
+        printf("Longitude is: %f",GGA_Struct.lon);
+        printf("%c\n",GGA_Struct.EW);
+        printf("Quality: %d",GGA_Struct.quality);
+        printf("Quality: %d",GGA_Struct.quality);
     }
 }
