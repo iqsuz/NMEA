@@ -41,12 +41,13 @@
         char MSL_unit;
         double geo_sep;
         char geo_sep_unit;
-        uint8_t AOD;            //Variable type needs to be checked to see if it is correct.
-        uint8_t diff_stat;      //Variable type needs to be checked to see if it is correct.
-        uint8_t checksum;
+        double AOD;            //Variable type needs to be checked to see if it is correct.
+        int diff_stat;      //Variable type needs to be checked to see if it is correct.
+        int checksum;
     }StructGGA;
 
     uint8_t parse_gga(char *, StructGGA *);
     double str2double(char *, char *);
-    uint8_t str2int8(char *, char *);
+    int str2int(char *, char *);
+    uint8_t str2uint8(char *, char *);
 #endif // _NMEA_H_

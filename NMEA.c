@@ -74,13 +74,13 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
     //Quality
     comma_start = comma_end;
     comma_end = strchr(comma_start+1, ',');
-    GGA_Struct->quality = str2int8(comma_start+1, comma_end-1);
+    GGA_Struct->quality = str2uint8(comma_start+1, comma_end-1);
 
 
     //Number of satellite
     comma_start = comma_end;
     comma_end = strchr(comma_start+1, ',');
-    GGA_Struct->num_sat = str2int8(comma_start+1, comma_end-1);
+    GGA_Struct->num_sat = str2uint8(comma_start+1, comma_end-1);
 
     //HDOP
     comma_start = comma_end;
@@ -138,7 +138,13 @@ This function converts string to double by utilizing two pointers which point st
 
 double str2double(char *str_start, char *str_end){
     double num = 0;
+    int8_t is_positive = 1;
     uint8_t is_num = 1, pow_cnt = 1;
+
+    if(*str_start == '-'){
+        is_positive = -1;
+        str_start++;
+    }
 
     while(str_start++ <= str_end){
         if(!is_digit(*(str_start - 1))){
@@ -158,11 +164,32 @@ double str2double(char *str_start, char *str_end){
         }
     }
 
-    return num;
+    return is_positive*num;
 }
 
-uint8_t str2int8(char *str_start, char *str_end){
-    uint8_t num = 0;
+int str2int(char *str_start, char *str_end){
+    int num = 0;
+    int8_t is_positive = 1;
+
+    if(*str_start == '-'){
+        is_positive = -1;
+        str_start++;
+    }
+
+    while(str_start++ <= str_end){
+        if(!is_digit(*(str_start-1))){
+            printf("Not a number!");
+            return 0;
+        }
+
+        num = num *10 + *(str_start-1) - '0';
+    }
+
+    return is_positive*num;
+}
+
+uint8_t str2uint8(char *str_start, char *str_end){
+    int num = 0;
 
     while(str_start++ <= str_end){
         if(!is_digit(*(str_start-1))){
