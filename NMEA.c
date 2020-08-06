@@ -39,11 +39,15 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
     //North or South
     comma_start = comma_end;
 
-    if((comma_end = strchr(comma_start+1, ',')) != NULL && comma_end-comma_start-2 == 0){
-        GGA_Struct->NS = *(comma_end-1);
-    }else{
+    if((comma_end = strchr(comma_start+1, ',')) == NULL){
         GGA_Struct->NS = '\0';
         return 0;
+    }
+
+    if(comma_end-comma_start-1 == 0){
+        GGA_Struct->NS = '\0';
+    }else{
+        GGA_Struct->NS = *(comma_start+1);
     }
 
     //Longitude
@@ -59,11 +63,15 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
     //East or West
     comma_start = comma_end;
 
-    if((comma_end = strchr(comma_start+1, ',')) != NULL && comma_end-comma_start-2 == 0){
-        GGA_Struct->EW = *(comma_end-1);
-    }else{
+    if((comma_end = strchr(comma_start+1, ',')) == NULL){
         GGA_Struct->EW = '\0';
         return 0;
+    }
+
+    if(comma_end-comma_start-1 == 0){
+        GGA_Struct->EW = '\0';
+    }else{
+        GGA_Struct->EW = *(comma_start+1);
     }
 
     //Quality
@@ -110,11 +118,15 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
     //MSL_Alt Unit
     comma_start = comma_end;
 
-    if((comma_end = strchr(comma_start+1, ',')) != NULL && comma_end-comma_start-2 == 0){
-        GGA_Struct->MSL_unit = *(comma_end-1);
-    }else{
+    if((comma_end = strchr(comma_start+1, ',')) == NULL){
         GGA_Struct->MSL_unit = '\0';
         return 0;
+    }
+
+    if(comma_end-comma_start-1 == 0){
+        GGA_Struct->MSL_unit = '\0';
+    }else{
+        GGA_Struct->MSL_unit = *(comma_start+1);
     }
 
     //GEO_SEP
@@ -134,21 +146,12 @@ uint8_t parse_gga(char *str, StructGGA *GGA_Struct){
     if((comma_end = strchr(comma_start+1, ',')) == NULL){
         GGA_Struct->geo_sep_unit = '\0';
         return 0;
-    }else{
-        if((comma_end-comma_start-1)/sizeof(char) > 1){
-
-        }
     }
 
-
-    if((comma_end = strchr(comma_start+1, ',')) != NULL){
-        if((comma_end-comma_start-1)/sizeof(char) > 1){
-            GGA_Struct->geo_sep_unit = '\0';
-            return 0;
-        }
-        GGA_Struct->geo_sep_unit = *(comma_end-1);
+    if(comma_end == comma_start+1){
+        GGA_Struct->geo_sep_unit = '\0';
     }else{
-
+        GGA_Struct->geo_sep_unit = *(comma_start+1);
     }
 
     //AOD

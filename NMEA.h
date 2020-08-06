@@ -9,24 +9,6 @@
 
     #define COMMA_LIMIT 20
 
-
-    typedef enum {
-        DTM,
-        GBS,
-        GGA,
-        GLL,
-        GPQ,
-        GRS,
-        GSA,
-        GST,
-        GSV,
-        RMC,
-        THS,
-        TXT,
-        VTG,
-        ZDA
-    }TypeGP;
-
     typedef struct {
         char id[5];
         double time;
