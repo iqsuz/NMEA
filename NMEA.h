@@ -32,4 +32,4 @@
     double str2double(char *, char *);
     int str2int(char *, char *);
     uint8_t str2uint8(char *, char *);
-#endif // _NMEA_H__
+#endif // _NMEA_H_
