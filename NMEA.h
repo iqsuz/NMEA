@@ -4,11 +4,6 @@
     #include <stdint.h>
     #include <string.h>
 
-    #define GGA_PARAM_LIMIT 1000
-    #define GGA_COMMA 14
-
-    #define COMMA_LIMIT 20
-
     typedef struct {
         char id[5];
         double time;
